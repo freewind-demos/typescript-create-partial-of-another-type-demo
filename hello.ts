@@ -21,22 +21,18 @@ type RecursivePartial<T> = {
       T[P];
 };
 
-function partialOf<T>() {
-  return <X extends RecursivePartial<T>>(x: X): X => {
-    return x;
-  }
-}
+type PartOf<T, X extends RecursivePartial<T>> = X;
 
-const partialOfBigType = partialOf<BigType>();
-
-const partial: {
+type SmallType = PartOf<BigType, {
   aaa: string;
   extra: { ddd: string };
   nested1: { nested2: {} }
-} = partialOfBigType({
+}>
+
+const partial: SmallType = {
   aaa: 'aaa11',
   extra: {'ddd': '222'},
   nested1: {nested2: {}}
-})
+}
 
 console.log(partial)
